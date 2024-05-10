@@ -1,0 +1,18 @@
+:root {
+    --myVar-currentDay: 5;
+    --myVar-customForegroundColor: #084886;
+    --myVar-customBackgroundColor:rgba(42, 210, 20, 0.47);
+    --myVar-backgroundColorOnHover: rgba(215, 248, 175, 0.29);
+    --myVar-foregroundColorOnHover:#1966be;
+    --myVar-greyOfBackground: rgba(1, 2, 0, 0.05);
+    --myVar-greyOfBorders: #867f7f;
+    --myVar-creme: rgb(253, 253, 249);
+    --myVar-available: rgba(157, 234, 157, 0.45);
+    --myVar-unavailable: rgb(222, 198, 198);
+    --myVar-onHover: #86084b;
+    --myVar-alert: #866208FF;
+    --myVar-valid: #2c9175;
+    --myVar-invalid: #dc3545;
+    --myVar-invisible: rgba(42, 210, 20, 0.02);
+    --myVar-footerHeight: 4rem;
+}

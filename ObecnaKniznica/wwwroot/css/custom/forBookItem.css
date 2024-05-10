@@ -1,0 +1,127 @@
+.card:hover .cardBookItem {
+    background-color: rgba(91, 88, 88, 0.06);
+}
+
+.card:hover .reservingArea {
+    background-color: rgba(91, 88, 88, 0.12);
+}
+
+.cardBookItem {
+    width: 100%;
+}
+
+.sneakPeekImg {
+    width: 130px;
+}
+
+.descriptionSneakPeak {
+    /*padding-top: 20px ;*/
+}
+
+.authorName {
+    font-weight: bold;
+    transform: translateY(-1px);
+}
+
+.reservingArea {
+    width: 100%;
+    background-color: var(--myVar-creme);
+}
+
+.editSection {
+    column-gap: 5%;
+}
+
+.editSection > a {
+    /*display: none;*/
+    margin-left: 4%;
+    display: flex;
+    height: 75%;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ratingInfoCover {
+    justify-content: end;
+    margin-right: 10px;
+}
+
+.ratingInfo {
+    font-weight: bold;
+    color: var(--myVar-customForegroundColor);
+    background-color: rgba(253, 241, 25, 0.63);
+    padding: 2px 6px;
+    border: 1px solid grey;
+    border-radius: 7px;
+    width: auto;
+    text-align: center;
+}
+
+.statusAvailability {
+    transform: translate(-25%, 25%);
+    background-color: var(--myVar-available);
+    text-align: center;
+    border-radius: 5px;
+    padding: 4px 8px;
+    width: auto;
+    border: 1px solid grey;
+}
+
+.btnReserve {
+    color: var(--myVar-creme) !important;
+    background-color: var(--myVar-customForegroundColor) !important;
+}
+
+.btnReserve:hover {
+    border: 2px solid var(--myVar-available) !important;
+}
+
+@media screen and (max-width: 768px) {
+    .sneakPeekImg {
+        position: relative;
+        left: 50%;
+        transform:translateX(-50%);
+    }
+
+    .reservingArea {
+        transform: translateY(0);
+    }
+
+    .btnReserve {
+        transform: translateX(-50%);
+        width: 70%;
+        position: relative;
+        left: 50%;
+    }
+    .statusCoverClass {
+        transform: translate(0, 25%);
+    }
+    .statusAvailability {
+        position: relative;
+        width: 150px;
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, 0%);
+    }
+
+    .sneakPeekImg {
+        margin-left: 0;
+    }
+
+    .ratingInfoCover {
+        margin-right: 0;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .editSection {
+        justify-content: center;
+    }
+
+    .editSection > a {
+        margin-left: 0;
+        height: 100%;
+    }
+}
