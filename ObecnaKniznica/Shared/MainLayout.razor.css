@@ -1,10 +1,11 @@
-#rootContainer { /** sticking footer to the bottom>> https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/ **/
-    position: relative;
-    min-height: 100vh;
-    background-color: var(--myVar-greyOfBackground);
+body {
+    margin: 0;
 }
 
-
-#web-content {
-    /*padding-bottom: var(--myVar-footerHeight);*/
+#rootContainer { /** sticking footer to the bottom>> https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/ **/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--myVar-greyOfBackground);
 }
