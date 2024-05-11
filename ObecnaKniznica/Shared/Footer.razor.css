@@ -1,7 +1,7 @@
 ﻿#footer {
     position: absolute;
     bottom: 0;
-    width: 100vw;
+    width: 100%; /* 100vw robi problemy, lebo scroll bar prekryva footer, ked sa dynamicky zobrazi. */
     color: var(--myVar-customForegroundColor);
     background-color: var(--myVar-customBackgroundColor);
 }
