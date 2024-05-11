@@ -1,4 +1,10 @@
 #rootContainer { /** sticking footer to the bottom>> https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/ **/
     position: relative;
     min-height: 100vh;
+    background-color: var(--myVar-greyOfBackground);
+}
+
+
+#web-content {
+    /*padding-bottom: var(--myVar-footerHeight);*/
 }
