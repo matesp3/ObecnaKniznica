@@ -80,11 +80,11 @@
     font-weight: bold !important;
 }
 
-    .itemOfNavbar:hover, .navbar-toggler:hover {
-        border-radius: 8px;
-        color: var(--myVar-foregroundColorOnHover);
-        background-color: var(--myVar-backgroundColorOnHover);
-    }
+.itemOfNavbar:hover, .navbar-toggler:hover {
+    border-radius: 8px;
+    color: var(--myVar-foregroundColorOnHover);
+    background-color: var(--myVar-backgroundColorOnHover);
+}
 
 .navbar-toggler {
     color: var(--myVar-customForegroundColor);

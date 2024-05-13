@@ -5,11 +5,14 @@
 		</div>
 	</div>
 
+	@*@foreach (var insightItem in items)
+	{*@
 	<div class="row justify-content-center my-4">
 		<div class="col-11 col-xl-9 col-xxl-8">
 			<ObecnaKniznica.Pages.Blog.BlogInsight blogTitle="Nový školský rok!" blogAuthor="Ladislav Novohradský" insightText="So začiatkom školy prinášame žiakom množstvo výhod, ako..." lastEdit="@(DateTime.Now.AddHours(-3))" />
 		</div>
 	</div>
+	@*}*@
 	<div class="row justify-content-center my-4">
 		<div class="col-11 col-xl-9 col-xxl-8">
 			<ObecnaKniznica.Pages.Blog.BlogInsight blogTitle="Ako sa nestratiť v knihách" blogAuthor="Júlia Predmestská" insightText="Často sa ľuďom stáva, že chcú nájsť knihu podľa ich žánru, ale nedarí..." lastEdit="@(DateTime.Now.AddDays(-1))" />
@@ -20,7 +23,6 @@
 			<ObecnaKniznica.Pages.Blog.BlogInsight blogTitle="7 tipov ako sa učiť" blogAuthor="Anton Horný" insightText="Aj vy sa niekedy nájdete pri učení prokrastinovať? Potom by..." lastEdit="@(DateTime.Now.AddDays(-24))" />
 		</div>
 	</div>
-	<div class="pb-1">
 
-	</div>
+	<div class="pb-1"> </div>
 </div>

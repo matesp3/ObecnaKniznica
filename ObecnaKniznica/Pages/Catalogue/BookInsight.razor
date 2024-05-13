@@ -1,0 +1,57 @@
+﻿@page "/book-insight"
+
+<div class="card">
+    <div class="row g-0 card-body cardBookItem">
+        <div class="col-md-2 text-center text-md-start">
+            <img src="" class="img-fluid rounded" alt="Obalka knihy">
+        </div>
+        <div class="col-md-10">
+            <div class="row justify-content-center justify-content-md-end me-md-1">
+                <p class="ratingInfo">
+                    Hodnotenie:
+                </p>
+            </div>
+            <div class="row">
+                <h5 class="card-title mb-2">
+                    Názov knihy
+                </h5>
+            </div>
+            <div class="row">
+                <p class="card-text authorName">
+                    <small>
+                        Zoznam autorov oddelených čiarkou
+                    </small>
+                </p>
+            </div>
+            <div class="row">
+                <p class="card-text">
+                    Náhľad popisu knihy...
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row g-0 card-footer reservingArea">
+        <div class="col-lg-6 d-flex mt-1 editSection">
+            <!-- Zobraz, iba ak je pouzivatel autorizovany-->
+            <a class="btn btn-danger me-3" href="">
+                <i class="bi bi-trash"></i> Vymazať
+            </a>
+            <a class="btn btn-warning" href="">
+                <i class="bi bi-pencil"></i> Upraviť
+            </a>
+            <!-- Koniec -->
+        </div>
+        <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end mt-3 mt-lg-0">
+            <h5> 
+                <span class="badge mt-2 me-3 available-bg">
+                   Dostupných:
+                </span>
+             </h5>
+
+            <button class="btn btn-primary" type="button">
+                <input type="hidden" name="id" value="doplnitId">
+                Rezervovať
+            </button>
+        </div>
+    </div>
+</div>

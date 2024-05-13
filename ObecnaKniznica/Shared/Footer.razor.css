@@ -5,3 +5,14 @@
     color: var(--myVar-customForegroundColor);
     background-color: var(--myVar-customBackgroundColor);
 }
+
+.item-with-link {
+    color: var(--myVar-customForegroundColor) !important;
+    text-decoration: none;
+}
+
+.item-with-link:hover {
+    border-radius: 8px;
+    color: var(--myVar-foregroundColorOnHover);
+    background-color: var(--myVar-backgroundColorOnHover);
+}
