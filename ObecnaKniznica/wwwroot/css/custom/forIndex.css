@@ -58,52 +58,6 @@
 }
 
 
-.h3Actualities {
-    margin-top: 1vw;
-    margin-left: 3vw;
-    margin-bottom: 2vw;
-    color: var(--myVar-customForegroundColor);
-}
-
-.cardsGrid {
-    display: grid !important;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-columns: 1fr;
-    gap: 3vw;
-
-    width: 100%;
-    height: auto;
-    place-items: center;
-    margin-bottom: 1vw;
-}
-
-.actalitiesCard .cardImage {
-    max-width: 100%;
-    height: auto;
-    max-height: 300px;
-}
-
-.actalitiesCard:hover {
-    border: 1px solid var(--myVar-greyOfBorders);
-    box-shadow: black;
-}
-
-.actalitiesCard {
-    width: 80%;
-}
-
-.actalitiesCard .card-text {
-    color: var(--myVar-customForegroundColor);
-}
-.actalitiesCard .card-title {
-    color: var(--myVar-customForegroundColor);
-}
-
-.actalitiesCard:hover .card-title {
-    color: var(--myVar-onHover);
-    text-decoration: underline;
-}
-
 .pageCounter {
     display: flex;
     position: relative;

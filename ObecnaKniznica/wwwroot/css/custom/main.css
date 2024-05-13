@@ -14,6 +14,9 @@
     color: black;
 }
 
+.primary-color {
+    color: var(--myVar-customForegroundColor);
+}
 
 .withLink {
     color: var(--myVar-customForegroundColor);
