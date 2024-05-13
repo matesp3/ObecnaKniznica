@@ -38,8 +38,24 @@ window.onload = (event) => {
     const tableHours = document.getElementById('tableHours');
     let dayPosition = new Date().getDay();
     if (tableHours != null && dayPosition !== 0) {
-        let tbody = tableHours.childNodes.item(0).childNodes;
-        tbody.item(2 * (dayPosition - 1)).style.fontWeight = 'bold'; //2,4,6
+        //const tbody = tableHours.childNodes.item(0).childNodes;
+        const editClassName = "highlighted";
+        const normalClassName = "";
+        tableHours.firstChild.firstChild.className = "highlighted";
+        //let tableRow = tableHours.firstChild.firstChild;
+        //tableRow.firstChild.className = "highlighted";
+        //let i = 1;
+        //let tableRow = tableHours.firstChild.firstChild;
+        //while (tableRow) {
+        //    const newClassName = (i === dayPosition) ? editClassName : normalClassName;
+        //    tableRow.firstChild.className = newClassName;
+        //    tableRow.lastChild.className = newClassName;
+        //    i++;
+        //    tableRow = tableRow.nextSibling;
+        //}
+/*        tbody.item(2 * (dayPosition - 1));*/
+
+        //tbody.item(2 * (dayPosition - 1)).style.fontWeight = 'bold'; //2,4,6
     }
 }
 
