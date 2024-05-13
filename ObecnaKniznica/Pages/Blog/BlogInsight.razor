@@ -1,34 +1,72 @@
 ﻿@page "/blog-insight"
 
-@code {
-
-}
-@*<div class="cardsGrid">*@
-    <div class="card rounded-4 actalitiesCard">
-        <div class="card-body">
-            <h5 class="card-title">Nový školský rok!</h5>
-            <p class="card-text">
-                Začal sa nový školský rok, v ktorom ponúkame žiakom a študentom ešte viac
-                výhod, ako doteraz...
-            </p>
-        </div>
-        <img src="public/images/hobbit.jpg" class="card-img-bottom cardImage" alt="cardImage">
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-sm-6 text-center text-sm-start">
-                    <p class="card-text">
-                        <small class="text-body-tertiary">Autor:</small>
-                        <small id="cardAuthor-1" class="text-body-secondary">Matej Poljak</small>
-                    </p>
-                </div>
-                <div class="col-sm-6 text-center text-sm-end">
-                    <p class="card-text">
-                        <small class="text-body-tertiary">naposledy upravené</small>
-                        <small id="cardEdited-1" class="text-body-secondary"> 20.1.2023</small>
-                    </p>
-                </div>
-
+<div class="card rounded-4 actalitiesCard primary-color">
+    <div class="card-body">
+        <h5 class="card-title">
+            @blogTitle
+        </h5>
+        <p class="card-text ">
+            @insightText
+        </p>
+    </div>
+    <img src="public/images/hobbit.jpg" class="card-img-bottom cardImage" alt="obrázok nedostupný">
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-sm-6 text-center text-sm-start">
+                <p class="card-text">
+                    <small class="text-body-tertiary">Autor:</small>
+                    <small id="cardAuthor-1" class="text-body-secondary">
+                        @blogAuthor
+                    </small>
+                </p>
             </div>
+            <div class="col-sm-6 text-center text-sm-end">
+                <p class="card-text">
+                    <small class="text-body-tertiary">naposledy upravené:</small>
+                    <small id="cardEdited-1" class="text-body-secondary"> 
+                        @(" " + getLastEdit())
+                    </small>
+                </p>
+            </div>
+
         </div>
     </div>
-@*</div>*@
+</div>
+
+@code {
+
+    [Parameter]
+    public string blogTitle { get; set; }   = string.Empty;  // Nový školský rok!
+    [Parameter]
+    public string insightText { get; set; } = string.Empty;  // Začal sa nový školský rok, v ktorom ponúkame žiakom a študentom ešte viac výhod, ako doteraz...
+    [Parameter]
+    public string blogAuthor { get; set; }  = string.Empty;  // Matej Poljak
+    [Parameter]
+    public DateTime lastEdit { get; set; }                   // 1.1.1
+
+    /**
+     * Textova reprezentacia poslednej upravy.
+     */
+    private string getLastEdit()
+    {
+        double minutes = DateTime.Now.Subtract(lastEdit).TotalMinutes;
+
+        if (minutes <= 60)
+        {
+            int mins = (int)Math.Round(minutes, MidpointRounding.ToEven);
+            return "Pred " + mins.ToString() + " minútami";
+        }
+        else if (minutes <= (60 * 24))
+        {
+            int hours = (int)Math.Round(minutes / 60, MidpointRounding.ToEven);
+            return "Pred " + hours.ToString() + ((hours == 1) ? " hodinou" : " hodinami");
+        }
+        else if (DateTime.Compare(DateTime.Today.AddDays(-1), lastEdit) < 0)
+            return "Včera";
+        else if (DateTime.Compare(DateTime.Today.AddDays(-2), lastEdit) < 0)
+            return "Predvčerom";
+        else
+            return lastEdit.ToShortDateString();
+    }
+
+}

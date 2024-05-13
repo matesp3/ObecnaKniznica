@@ -1,0 +1,15 @@
+﻿.actalitiesCard .cardImage {
+    height: auto;
+    /*max-height: 300px;*/
+    max-width: 450px;
+}
+
+.actalitiesCard:hover {
+    border: 1px solid var(--myVar-greyOfBorders);
+    box-shadow: black;
+}
+
+.actalitiesCard:hover .card-title {
+    color: var(--myVar-onHover);
+    text-decoration: underline;
+}
