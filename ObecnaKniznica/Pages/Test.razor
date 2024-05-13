@@ -1,0 +1,62 @@
+﻿<div class="card">
+    <div class="card-body col-6 cardBookItem">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="" class="img-fluid sneakPeekImg" alt="Nahlad obalky knihy">
+            </div>
+            <div class="col-md-10" aria-label="productInfo">
+                <div class="row d-flex justify-content ratingInfoCover">
+                    <p class="ratingInfo">
+                        Hodnotenie:
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="row titleAndRatingContainer">
+                            <h5 class="card-title bookTitle">
+                                Názov knihy
+                            </h5>
+                        </div>
+                        <div class="row">
+                            <p class="card-text authorName">
+                                <small class="text-body-primary">
+                                    Zoznam autorov oddelených čiarkou
+                                </small>
+                            </p>
+                        </div>
+                        <div class="row descriptionSneakPeak">
+                            <div class="col bookTitle">
+                                <p class="card-text">
+                                    Náhľad popipu knihy...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-0 card-footer reservingArea">
+        <div class="col-md-6 d-flex justify-content-md-start editSection">
+            <!-- Zobraz, iba ak je pouzivatel autorizovany-->
+            <a class="btn btn-danger" href="<?= $link->url('bookItem.delete',['id' => $bookItem->getId()]) ?>">
+                <i class="bi bi-trash"></i> vymazať
+            </a>
+            <a class="btn btn-warning" href="<?= $link->url('bookItem.edit',['id' => $bookItem->getId()]) ?>">
+                <i class="bi bi-pencil"></i> upraviť
+            </a>
+            <!-- Koniec -->
+        </div>
+        <div class="col-md-6 d-md-flex justify-content-md-end">
+            <div class="statusCoverClass">
+                <p class="statusAvailability">
+                    Dostupných:
+                </p>
+            </div>
+            <button class="btn btnReserve" type="button">
+                <input type="hidden" name="id" value="doplnitId"> >
+                Rezervovať
+            </button>
+        </div>
+    </div>
+</div>

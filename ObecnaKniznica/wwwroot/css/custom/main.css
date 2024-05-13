@@ -6,8 +6,31 @@
     color: var(--myVar-valid)
 }
 
+.available-bg {
+    background-color: var(--myVar-available);
+}
+
+.unavailable-bg {
+    background-color: var(--myVar-unavailable);
+}
+
+.btn-primary {
+    background-color: var(--myVar-customForegroundColor);
+    color: var(--myVar-creme);
+}
+
+.btn-danger {
+    background-color: var(--myVar-invalid);
+    color: var(--myVar-creme);
+}
+
+.btn-warning:hover {
+    background-color: var(--myVar-alert);
+    color: var(--myVar-creme);
+}
+
 .alert {
-    color: var(--myVar-alert);
+    color: var(--myVar-creme);
 }
 
 .normal {

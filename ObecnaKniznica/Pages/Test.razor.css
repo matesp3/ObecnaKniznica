@@ -1,4 +1,4 @@
-.card:hover .cardBookItem {
+﻿.card:hover .cardBookItem {
     background-color: rgba(91, 88, 88, 0.06);
 }
 
@@ -32,16 +32,16 @@
     column-gap: 5%;
 }
 
-.editSection > a {
-    /*display: none;*/
-    margin-left: 4%;
-    display: flex;
-    height: 75%;
-    text-align: center;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
+    .editSection > a {
+        /*display: none;*/
+        margin-left: 4%;
+        display: flex;
+        height: 75%;
+        text-align: center;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
 .ratingInfoCover {
     justify-content: end;
@@ -74,15 +74,15 @@
     background-color: var(--myVar-customForegroundColor) !important;
 }
 
-.btnReserve:hover {
-    border: 2px solid var(--myVar-available) !important;
-}
+    .btnReserve:hover {
+        border: 2px solid var(--myVar-available) !important;
+    }
 
 @media screen and (max-width: 768px) {
     .sneakPeekImg {
         position: relative;
         left: 50%;
-        transform:translateX(-50%);
+        transform: translateX(-50%);
     }
 
     .reservingArea {
@@ -95,9 +95,11 @@
         position: relative;
         left: 50%;
     }
+
     .statusCoverClass {
         transform: translate(0, 25%);
     }
+
     .statusAvailability {
         position: relative;
         width: 150px;
@@ -120,8 +122,8 @@
         justify-content: center;
     }
 
-    .editSection > a {
-        margin-left: 0;
-        height: 100%;
-    }
+        .editSection > a {
+            margin-left: 0;
+            height: 100%;
+        }
 }
