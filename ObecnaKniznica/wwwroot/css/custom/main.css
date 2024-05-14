@@ -19,7 +19,7 @@
     color: var(--myVar-creme);
 }
 
-.btn-danger {
+.btn-danger:hover {
     background-color: var(--myVar-invalid);
     color: var(--myVar-creme);
 }
@@ -39,6 +39,10 @@
 
 .primary-color {
     color: var(--myVar-customForegroundColor);
+}
+
+.secondary-color {
+    color: var(--myVar-foregroundColorOnHover);
 }
 
 .withLink {
