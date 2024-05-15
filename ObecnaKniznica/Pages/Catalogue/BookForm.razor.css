@@ -1,0 +1,26 @@
+﻿#btnAddAnotherAuthor {
+    width: 40px;
+    color: var(--myVar-creme);
+    background-color: var(--myVar-customForegroundColor);
+}
+
+#bookForm {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: var(--myVar-creme);
+}
+
+#btnSubmitBookItem {
+    position: relative;
+    color: var(--myVar-creme);
+    background-color: var(--myVar-customForegroundColor);
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid;
+}
+
+#btnSubmitBookItem:hover {
+    background-color: var(--myVar-foregroundColorOnHover);
+    color: var(--myVar-creme);
+}
