@@ -6,8 +6,8 @@ using ObecnaKniznicaLogic.Models;
 namespace ObecnaKniznicaAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class BookController : ControllerBase
+    [ApiController]                              // robi validaciu parametrov modelu
+    public class BookController : ControllerBase // trieda 'ControllerBase' sa dedi pre Web APIs, 'Controller' sa dedi pre Web aplikacie
     {
         private readonly IBookService service;
 
@@ -21,7 +21,7 @@ namespace ObecnaKniznicaAPI.Controllers
         {
             if (bookModel is null)
                 return BadRequest();
-            return Ok(await service.GetBookAsync(bookModel.Id));
+            return Ok(await service.AddBookAsync(bookModel));
         }
 
         [HttpGet]
@@ -41,7 +41,8 @@ namespace ObecnaKniznicaAPI.Controllers
 
             var book = await service.GetBookAsync(id);
             if (book is null)
-                return BadRequest( new Response { Success = false, Message = $"Book (id={id}) was not found." });
+                return StatusCode(StatusCodes.Status204NoContent);
+                //return BadRequest( new Response { Success = false, Message = $"Book (id={id}) was not found." });
             return Ok(book);
         }
 

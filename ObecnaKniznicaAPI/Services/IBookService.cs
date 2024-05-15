@@ -1,7 +1,7 @@
 ﻿using ObecnaKniznicaLogic.Models;
 using ObecnaKniznicaLogic.DataModels;
 
-namespace ObecnaKniznicaAPI.Services
+namespace ObecnaKniznicaAPI.Services // interface sa pouziva preto, lebo implementacia ziskania dat moze zavisiet na relacnej databaze, XML dokumente, etc.
 {
     public interface IBookService
     {

@@ -20,10 +20,10 @@ namespace ObecnaKniznicaAPI.Services
                 return new Response { Success = false, Message = "At least one of required fields wasn't given." };
             else       // model is not null
             {
-                if (bookModel.Id <= 0)
-                    return new Response { Success = false, Message = $"'{bookModel.Title}' not found" };
-                else   // bookMode.Id > 0
-                {
+                //if (bookModel.Id <= 0)
+                //    return new Response { Success = false, Message = $"'{bookModel.Title}' not found" };
+                //else   // bookMode.Id > 0
+                //{
                     Book result = await GetBookAsync(bookModel.Id);
                     if (result is null)    // try CREATE book
                     {
@@ -55,7 +55,7 @@ namespace ObecnaKniznicaAPI.Services
                             return new Response { Success = false, Message = $"Error occured during updating book '{result.Title}'. Info: {e.Message}" };
                         }
                     }
-                }
+                //}
             }
         }
 
