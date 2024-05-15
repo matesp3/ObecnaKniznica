@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Routing.Matching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using ObecnaKniznicaAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(policy =>
+    {
+        policy.WithOrigins("https://localhost:7018", "https://localhost:7018")
+        .AllowAnyMethod().WithHeaders(HeaderNames.ContentType);
+    });
 }
 
 app.UseHttpsRedirection();

@@ -9,6 +9,6 @@ namespace ObecnaKniznicaAPI.Data
         {
         }
 
-        public DbSet<Book> Books { get; set; } = default;
+        public DbSet<Book> Books { get; set; }
     }
 }
