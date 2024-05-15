@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ObecnaKniznicaAPI.Models;
+using ObecnaKniznicaLogic.Models;
 
 namespace ObecnaKniznicaAPI.Data
 {

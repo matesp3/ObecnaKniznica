@@ -6,14 +6,14 @@ namespace ObecnaKniznicaLogic.DataModels
     {
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; }
-        [Required]
+        public required string Title { get; set; }
         public string? Image { get; set; }
         [Required]
-        public int Amount { get; set; }
+        public int TotalAmount { get; set; }
+        public int ReservedAmount { get; set; }
+        [Required]
         public string? Description { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        [Required]
         public DateTime Created { get; set; } = DateTime.Now; // in system
     }
 }
