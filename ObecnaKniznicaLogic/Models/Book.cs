@@ -1,5 +1,7 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
 
 namespace ObecnaKniznicaLogic.Models
 {
@@ -18,5 +20,7 @@ namespace ObecnaKniznicaLogic.Models
         public DateTime? ReleaseDate { get; set; }
         [Required]
         public DateTime Created { get; set; } = DateTime.Now; // in system
+
+        public List<Author>? Authors { get; }
     }
 }

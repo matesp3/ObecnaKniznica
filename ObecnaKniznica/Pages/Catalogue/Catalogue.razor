@@ -1,31 +1,49 @@
 ﻿@page "/catalogue"
+@inject IHttpClientFactory _httpClientFactory
 
 <PageTitle>Katalóg kníh</PageTitle>
 
 <div class="container-fluid">
 	<div class="row justify-content-center my-3">
 		<div class="col">
-
+			<p>Katalóg kníh</p>
 		</div>
 	</div>
 
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight/>
-		</div>
-	</div>
-
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight />
-		</div>
-	</div>
-
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight />
-		</div>
-	</div>
+	@if (Books is null)
+	{
+		<h4> Načítavanie údajov... </h4>
+	}
+	else if (Books.Count == 0)
+	{
+		<h4> Neexistujú žiadne záznamy. </h4>
+	}
+	else
+	{
+		@foreach (Book b in Books)
+		{
+			<div class="row justify-content-center my-3">
+				<div class="col">
+					<BookInsight Title="@b.Title" ReservedAmount="@b.ReservedAmount" Description="@b.Description"/>
+				</div>
+			</div>
+		}
+	}
+	
 
 	<div class="pb-1"> </div>
 </div>
+
+@code {
+
+	List<Author>? Authors { get; set; }
+	List<Book>? Books { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		var client = _httpClientFactory.CreateClient("LibraryResources");
+		Authors = await client.GetFromJsonAsync<List<Author>>("api/author/");
+		Books = await client.GetFromJsonAsync<List<Book>>("api/book/");
+		await base.OnInitializedAsync();
+	}
+}

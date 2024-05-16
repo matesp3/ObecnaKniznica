@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         throw new InvalidOperationException("Connection String 'DefaultConnection' not found."));
 });
 builder.Services.AddScoped<IBookService, BookService>(); // instancia vytvorena per request, zdiela sa v ramci poziadavky. (narozdiel od 'transient, kde sa aj v ramci jednej ziadosti vytvaraju nove instancie').
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 var app = builder.Build();
 

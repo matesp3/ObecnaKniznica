@@ -20,42 +20,37 @@ namespace ObecnaKniznicaAPI.Services
                 return new Response { Success = false, Message = "At least one of required fields wasn't given." };
             else       // model is not null
             {
-                //if (bookModel.Id <= 0)
-                //    return new Response { Success = false, Message = $"'{bookModel.Title}' not found" };
-                //else   // bookMode.Id > 0
-                //{
-                    Book result = await GetBookAsync(bookModel.Id);
-                    if (result is null)    // try CREATE book
+                Book result = await GetBookAsync(bookModel.Id);
+                if (result is null)    // try CREATE book
+                {
+                    appDbContext.Books.Add(bookModel);
+                    try
                     {
-                        appDbContext.Books.Add(bookModel);
-                        try
-                        {
-                            await appDbContext.SaveChangesAsync();
-                            return new Response();
-                        }
-                        catch (Exception e)
-                        {
-                            return new Response { Success = false, Message = $"Error during saving new book '{bookModel.Title}' to DB. Info: {e.Message}" };
-                        }
+                        await appDbContext.SaveChangesAsync();
+                        return new Response();
                     }
-                    else                     // try UPDATE book
+                    catch (Exception e)
                     {
-                        result.Title = bookModel.Title;
-                        result.Description = bookModel.Description;
-                        result.ReservedAmount = bookModel.ReservedAmount;
-                        result.TotalAmount = bookModel.TotalAmount;
-                        result.ReleaseDate = bookModel.ReleaseDate;
-                        result.Created = bookModel.Created;
-                        try
-                        {
-                            await appDbContext.SaveChangesAsync();
-                            return new Response();
-                        } catch (Exception e)
-                        {
-                            return new Response { Success = false, Message = $"Error occured during updating book '{result.Title}'. Info: {e.Message}" };
-                        }
+                        return new Response { Success = false, Message = $"Error during saving new book '{bookModel.Title}' to DB. Info: {e.Message}" };
                     }
-                //}
+                }
+                else                     // try UPDATE book
+                {
+                    result.Title          = bookModel.Title;
+                    result.Description    = bookModel.Description;
+                    result.ReservedAmount = bookModel.ReservedAmount;
+                    result.TotalAmount    = bookModel.TotalAmount;
+                    result.ReleaseDate    = bookModel.ReleaseDate;
+                    result.Created        = bookModel.Created;
+                    try
+                    {
+                        await appDbContext.SaveChangesAsync();
+                        return new Response();
+                    } catch (Exception e)
+                    {
+                        return new Response { Success = false, Message = $"Error occured during updating book '{result.Title}'. Info: {e.Message}" };
+                    }
+                }
             }
         }
 
@@ -72,7 +67,7 @@ namespace ObecnaKniznicaAPI.Services
                 try
                 {
                     await appDbContext.SaveChangesAsync();
-                    return new Response { Success = true, Message = $"{result.Title} delete succesfully" };
+                    return new Response { Success = true, Message = $"'{result.Title}' deleted succesfully" };
                 }
                 catch (Exception ex)
                 {

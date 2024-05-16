@@ -5,11 +5,6 @@ namespace ObecnaKniznicaAPI.Services // interface sa pouziva preto, lebo impleme
 {
     public interface IBookService
     {
-        // ----------- AUTHORS --------------
-        //Task<Response> AddAuthor(Author authorModel);
-        //Task<List<Author>> GetAuthors();
-        //Task<Author> GetAuthor(int id);
-        //Task<Response> DeleteAuthor(int id);
 
         // ----------- BOOKS --------------
         Task<Response> AddBookAsync(Book bookModel);
