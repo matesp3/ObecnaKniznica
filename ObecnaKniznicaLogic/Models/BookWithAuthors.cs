@@ -1,11 +1,13 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection.Emit;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ObecnaKniznicaLogic.Models
 {
-    public class Book
+    public class BookWithAuthors
     {
         public int Id { get; set; }
         [Required]
@@ -21,6 +23,6 @@ namespace ObecnaKniznicaLogic.Models
         [Required]
         public DateTime Created { get; set; } = DateTime.Now; // in system
 
-        public List<Author> Authors { get; set; }
+        public List<Author> Authors { get; set; } = new List<Author>();
     }
 }

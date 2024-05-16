@@ -22,6 +22,21 @@ namespace ObecnaKniznicaAPI.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.Property<int>("AuthorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorsId", "BooksId");
+
+                    b.HasIndex("BooksId");
+
+                    b.ToTable("AuthorBook");
+                });
+
             modelBuilder.Entity("ObecnaKniznicaLogic.Models.Author", b =>
                 {
                     b.Property<int>("Id")
@@ -81,38 +96,19 @@ namespace ObecnaKniznicaAPI.Data.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("ObecnaKniznicaLogic.Models.Right", b =>
+            modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("Rights");
-                });
-
-            modelBuilder.Entity("ObecnaKniznicaLogic.Models.Right", b =>
-                {
-                    b.HasOne("ObecnaKniznicaLogic.Models.Author", "Author")
+                    b.HasOne("ObecnaKniznicaLogic.Models.Author", null)
                         .WithMany()
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("AuthorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ObecnaKniznicaLogic.Models.Book", "Book")
+                    b.HasOne("ObecnaKniznicaLogic.Models.Book", null)
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }

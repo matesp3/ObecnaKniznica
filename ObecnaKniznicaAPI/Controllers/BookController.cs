@@ -34,15 +34,15 @@ namespace ObecnaKniznicaAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Book>> GetBookAsync(int id)
+        public async Task<ActionResult<Book>> GetBookByIdAsync(int id)
         {
             if (id <= 0)
                 return BadRequest( new Response { Success = false, Message = $"Given id: {id} is invalid for data query."});
 
-            var book = await service.GetBookAsync(id);
+            var book = await service.GetBookByIdAsync(id);
             if (book is null)
-                return StatusCode(StatusCodes.Status204NoContent);
-                //return BadRequest( new Response { Success = false, Message = $"Book (id={id}) was not found." });
+                return BadRequest(new Response { Success = false, Message = $"Book (id={id}) was not found." });
+
             return Ok(book);
         }
 

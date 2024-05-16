@@ -43,6 +43,7 @@
 	{
 		var client = _httpClientFactory.CreateClient("LibraryResources");
 		Authors = await client.GetFromJsonAsync<List<Author>>("api/author/");
+		
 		Books = await client.GetFromJsonAsync<List<Book>>("api/book/");
 		await base.OnInitializedAsync();
 	}

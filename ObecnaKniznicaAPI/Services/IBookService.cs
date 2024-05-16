@@ -9,10 +9,9 @@ namespace ObecnaKniznicaAPI.Services // interface sa pouziva preto, lebo impleme
         // ----------- BOOKS --------------
         Task<Response> AddBookAsync(Book bookModel);
         Task<List<Book>> GetBooksAsync();
-        Task<Book> GetBookAsync(int id);
+        Task<Book> GetBookByIdAsync(int id);
         Task<Response> DeleteBookAsync(int id);
-
-
+        
         // ----------- RIGHTS --------------
         //Task<Response> AddRight(Author authorModel, Book BookModel);
         //Task<List<Author>> GetRights();

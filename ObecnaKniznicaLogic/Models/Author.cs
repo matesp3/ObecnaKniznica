@@ -8,6 +8,6 @@
         public string? PrefixTitles { get; set; }
         public string? SuffixTitles { get; set; }
 
-        public List<Book>? Books { get; }
+        public List<Book> Books { get; set; }
     }
 }
