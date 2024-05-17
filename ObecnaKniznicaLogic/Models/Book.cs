@@ -7,7 +7,7 @@ namespace ObecnaKniznicaLogic.Models
 {
     public class Book
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
         [Required]
         [MinLength(2)]
         public required string Title { get; set; }
