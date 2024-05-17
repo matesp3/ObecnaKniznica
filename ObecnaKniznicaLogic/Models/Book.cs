@@ -21,6 +21,6 @@ namespace ObecnaKniznicaLogic.Models
         [Required]
         public DateTime Created { get; set; } = DateTime.Now; // in system
 
-        public List<Author> Authors { get; set; }
+        public List<Author>? Authors { get; set; }
     }
 }

@@ -1,13 +1,11 @@
-using Blazored.LocalStorage;
-using ObecnaKniznica.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddSingleton<WeatherForecastService>(); // po prvej poziadavke sa instancia udrziava pocas celeho behu aplikacie a iba tato sa vyuziva
+// po prvej poziadavke sa instancia udrziava pocas celeho behu aplikacie a iba tato sa vyuziva
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7156/") });
 builder.Services.AddHttpClient("LibraryResources", httpClient =>      // pomenovany httpClient, vyuzitelny, ked potrebujem viac roznych API
 {

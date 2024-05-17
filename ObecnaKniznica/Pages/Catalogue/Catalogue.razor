@@ -12,21 +12,28 @@
 
 	@if (Books is null)
 	{
-		<h4> Načítavanie údajov... </h4>
+		<spinner>Načítavajú sa záznamy...</spinner>
 	}
-	else if (Books.Count == 0)
+	else if (ErrorMessage is not null)
 	{
-		<h4> Neexistujú žiadne záznamy. </h4>
+		<h4>CHYBA: @ErrorMessage</h4>
 	}
 	else
 	{
-		@foreach (Book b in Books)
+		if (Books.Count == 0)
 		{
-			<div class="row justify-content-center my-3">
-				<div class="col">
-					<BookInsight Title="@b.Title" ReservedAmount="@b.ReservedAmount" Description="@b.Description"/>
+			<h4> Neexistujú žiadne záznamy. </h4>
+		}
+		else
+		{
+			@foreach (Book b in Books)
+			{
+				<div class="row justify-content-center my-3">
+					<div class="col">
+						<BookInsight Title="@b.Title" ReservedAmount="@b.ReservedAmount" Description="@b.Description"/>
+					</div>
 				</div>
-			</div>
+			}
 		}
 	}
 	
@@ -36,15 +43,22 @@
 
 @code {
 
-	List<Author>? Authors { get; set; }
 	List<Book>? Books { get; set; }
+	public string? ErrorMessage { get; set; }
+	public string? JsonApiResultString { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		var client = _httpClientFactory.CreateClient("LibraryResources");
-		Authors = await client.GetFromJsonAsync<List<Author>>("api/author/");
-		
-		Books = await client.GetFromJsonAsync<List<Book>>("api/book/");
+		try
+		{
+			Books = await client.GetFromJsonAsync<List<Book>>("api/book/");
+			ErrorMessage = null;
+		}
+		catch (Exception e)
+		{
+			ErrorMessage = "Chyba pri získavaní kníh. Detail chyby: " + e.Message;
+		}
 		await base.OnInitializedAsync();
 	}
 }

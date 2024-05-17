@@ -7,7 +7,8 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(x =>
-   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // ReferenceHandler.Preserve spôsobí pridanie referencií do JSON súboru, èo potom znefunkèòuje parsovanie JSON-u pomocou httpClient.GetJsonAsync()
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
