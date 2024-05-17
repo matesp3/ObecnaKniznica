@@ -1,6 +1,4 @@
-﻿@page "/book-insight"
-
-<div class="card">
+﻿<div class="card">
     <div class="row g-0 card-body cardBookItem">
         <div class="col-md-2 text-center text-md-start">
             <img src="" class="img-fluid rounded" alt="Obalka knihy">
@@ -13,19 +11,19 @@
             </div>
             <div class="row">
                 <h5 class="card-title mb-2">
-                    @Title
+                    @Book?.Title
                 </h5>
             </div>
             <div class="row">
                 <p class="card-text authorName">
                     <small>
-                        Zoznam autorov oddelených čiarkou
+                        @AssembleAuthorsRow()
                     </small>
                 </p>
             </div>
             <div class="row">
                 <p class="card-text">
-                    @Description
+                    @(Book?.Description?.Length <= 200 ? Book!.Description : Book!.Description?.Substring(0, 200))
                 </p>
             </div>
         </div>
@@ -33,10 +31,10 @@
     <div class="row g-0 card-footer reservingArea">
         <div class="col-lg-6 d-flex mt-1 editSection">
             <!-- Zobraz, iba ak je pouzivatel autorizovany-->
-            <a class="btn btn-danger me-3" href="">
+            <a class="btn btn-danger me-3" @onclick="deleteBook">
                 <i class="bi bi-trash"></i> Vymazať
             </a>
-            <a class="btn btn-warning" href="">
+            <a class="btn btn-warning" href=@($"edit-book/{Book?.Id ?? 1}")>
                 <i class="bi bi-pencil"></i> Upraviť
             </a>
             <!-- Koniec -->
@@ -44,31 +42,76 @@
         <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end mt-3 mt-lg-0">
             <h5> 
                 <span class="badge mt-2 me-3 available-bg">
-                   Dostupných: @ReservedAmount
+                   Dostupných: @Book.ReservedAmount
                 </span>
              </h5>
 
             <button class="btn btn-primary" type="button">
-                <input type="hidden" name="id" value="doplnitId">
+                <input type="hidden" name="id" value="@Book.Id">
                 Rezervovať
             </button>
         </div>
     </div>
 </div>
 
+@inject IHttpClientFactory _httpClientFactory
 @code {
     [Parameter]
-    public string Title { get; set; }
+    public Book? Book { get; set; }
 
-    [Parameter]
-    public int ReservedAmount { get; set; }
+    public string? ErrorMessage { get; set; }
+    //reservations
+    //@($"add-reservation/{Book.Id}"
 
-    [Parameter]
-    public string? Description { get; set; }
+    public string AssembleAuthorsRow()
+    {
+        string authorsRow = "";
+        if (Book is not null & Book!.Authors is not null & Book.Authors!.Count() > 0)
+        {
+            for (int i = 0; i < Book.Authors!.Count() - 1; i++)
+            {
+                string fullAuthorName = assembleFullAuthorName(Book.Authors!.ElementAt(i));
+                authorsRow += $" {fullAuthorName} &";
+            }
+            authorsRow += " " + assembleFullAuthorName(Book.Authors!.ElementAt(Book.Authors!.Count() - 1));
+            return authorsRow;
+        }
+        return "Neznámy autor";
+    }
 
-    [Parameter] 
-    public List<Book>? Books { get; set; }
-    [Parameter]
-    public List<Author>? Authors { get; set; }
+    private string assembleFullAuthorName(Author author)
+    {
+        string fullAuthorName = "";
 
+        if (author.PrefixTitles is not null)
+            fullAuthorName += $"{author.PrefixTitles} ";
+
+        fullAuthorName += $"{author.FirstName} {author.LastName}";
+
+        if (author.SuffixTitles is not null)
+            fullAuthorName += $", {author.SuffixTitles}";
+
+        return fullAuthorName;
+    }
+
+    private async Task deleteBook()
+    {
+        var httpClient = _httpClientFactory.CreateClient("LibraryResources");
+        HttpRequestMessage request = new HttpRequestMessage
+            {
+                Content = JsonContent.Create(Book),
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri($"api/book/{Book!.Id}", UriKind.Relative)
+            };
+        
+        try
+        {
+            var response = await httpClient.SendAsync(request);
+            ErrorMessage = null;
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = "Chyba pri odstránení knihy. Detail chyby: " + e.Message;
+        }
+    }
 }
