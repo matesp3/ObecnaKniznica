@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObecnaKniznica", "ObecnaKni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObecnaKniznicaAPI", "ObecnaKniznicaAPI\ObecnaKniznicaAPI.csproj", "{2C771977-E898-4B25-AA6D-AB8311A0C4E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObecnaKniznicaLogic", "ObecnaKniznicaLogic\ObecnaKniznicaLogic.csproj", "{138CDB77-99AD-42A4-B844-035310BBDEFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObecnaKniznicaLogic", "ObecnaKniznicaLogic\ObecnaKniznicaLogic.csproj", "{138CDB77-99AD-42A4-B844-035310BBDEFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

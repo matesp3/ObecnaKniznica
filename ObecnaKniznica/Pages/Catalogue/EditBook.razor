@@ -1,0 +1,12 @@
+﻿@page "/edit-book/{id:int}"
+
+<PageTitle>Editovať knihu</PageTitle>
+<div class="p-5">
+	<BookForm />
+</div>
+
+@code
+{
+	[Parameter]
+	public int Id { get; set; }
+}
