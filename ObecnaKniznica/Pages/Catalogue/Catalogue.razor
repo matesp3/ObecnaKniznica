@@ -1,31 +1,64 @@
 ﻿@page "/catalogue"
+@inject IHttpClientFactory _httpClientFactory
 
 <PageTitle>Katalóg kníh</PageTitle>
 
 <div class="container-fluid">
 	<div class="row justify-content-center my-3">
 		<div class="col">
-
+			<p>Katalóg kníh</p>
 		</div>
 	</div>
 
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight/>
-		</div>
-	</div>
-
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight />
-		</div>
-	</div>
-
-	<div class="row justify-content-center my-3">
-		<div class="col">
-			<BookInsight />
-		</div>
-	</div>
+	@if (Books is null)
+	{
+		<spinner>Načítavajú sa záznamy...</spinner>
+	}
+	else if (ErrorMessage is not null)
+	{
+		<h4>CHYBA: @ErrorMessage</h4>
+	}
+	else
+	{
+		if (Books.Count == 0)
+		{
+			<h4> Neexistujú žiadne záznamy. </h4>
+		}
+		else
+		{
+			@foreach (Book b in Books)
+			{
+				<div class="row justify-content-center my-3">
+					<div class="col">
+						<BookInsight Title="@b.Title" ReservedAmount="@b.ReservedAmount" Description="@b.Description"/>
+					</div>
+				</div>
+			}
+		}
+	}
+	
 
 	<div class="pb-1"> </div>
 </div>
+
+@code {
+
+	List<Book>? Books { get; set; }
+	public string? ErrorMessage { get; set; }
+	public string? JsonApiResultString { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		var client = _httpClientFactory.CreateClient("LibraryResources");
+		try
+		{
+			Books = await client.GetFromJsonAsync<List<Book>>("api/book/");
+			ErrorMessage = null;
+		}
+		catch (Exception e)
+		{
+			ErrorMessage = "Chyba pri získavaní kníh. Detail chyby: " + e.Message;
+		}
+		await base.OnInitializedAsync();
+	}
+}

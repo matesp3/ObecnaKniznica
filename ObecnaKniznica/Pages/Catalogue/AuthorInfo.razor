@@ -68,11 +68,11 @@
 </div>
 
 @code {
-    public List<BookAuthor>? Authors { get; set; }
+    public List<Author>? Authors { get; set; }
     private void addAuthorInfo()
     {
         if (Authors is null)
-            Authors = new List<BookAuthor>();
-        Authors.Add(new BookAuthor { FirstName = "Meno", LastName = "Priezvisko" });
+            Authors = new List<Author>();
+        Authors.Add(new Author { FirstName = "Meno", LastName = "Priezvisko" });
     }
 }
