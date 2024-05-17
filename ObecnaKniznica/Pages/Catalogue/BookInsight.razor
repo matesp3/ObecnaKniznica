@@ -31,7 +31,7 @@
     <div class="row g-0 card-footer reservingArea">
         <div class="col-lg-6 d-flex mt-1 editSection">
             <!-- Zobraz, iba ak je pouzivatel autorizovany-->
-            <a class="btn btn-danger me-3" @onclick="deleteBook">
+            <a class="btn btn-danger me-3" @onclick="DeleteBook">
                 <i class="bi bi-trash"></i> Vymazať
             </a>
             <a class="btn btn-warning" href=@($"edit-book/{Book?.Id ?? 1}")>
@@ -41,12 +41,13 @@
         </div>
         <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end mt-3 mt-lg-0">
             <h5> 
-                <span class="badge mt-2 me-3 available-bg">
-                   Dostupných: @Book.ReservedAmount
+                <span class=@($"badge mt-2 me-3 {((Book!.TotalAmount - Book.ReservedAmount) > 0 ? "" : "un" )}available-bg")>
+                   Dostupných: @(Book.TotalAmount - Book.ReservedAmount)
                 </span>
              </h5>
 
-            <button class="btn btn-primary" type="button">
+            <button class=@($"btn btn-primary {((Book!.TotalAmount - Book.ReservedAmount) > 0 ? "" : "disabled" )}")
+                type="button" @onclick="ReserveBook">
                 <input type="hidden" name="id" value="@Book.Id"/>
                 Rezervovať
             </button>
@@ -59,27 +60,35 @@
     [Parameter]
     public Book? Book { get; set; }
 
-    public string? ErrorMessage { get; set; }
-    //reservations
-    //@($"add-reservation/{Book.Id}"
+    [Parameter]
+    public EventCallback<int> OnBookDeleted { get; set; } // posle parentovi ID knihy, ktora bola odstranea
 
-    public string AssembleAuthorsRow()
+    public string? ErrorMessage { get; set; }
+
+    // ------------------------------  METODY  ---------------------------------------
+
+    protected async Task BookWasDeleted(int bookId) // oznami parentovi id vymazanej knihy
+    {
+        await OnBookDeleted.InvokeAsync(bookId);
+    }
+
+    private string AssembleAuthorsRow()
     {
         string authorsRow = "";
         if (Book is not null & Book!.Authors is not null & Book.Authors!.Count() > 0)
         {
             for (int i = 0; i < Book.Authors!.Count() - 1; i++)
             {
-                string fullAuthorName = assembleFullAuthorName(Book.Authors!.ElementAt(i));
+                string fullAuthorName = AassembleFullAuthorName(Book.Authors!.ElementAt(i));
                 authorsRow += $" {fullAuthorName} &";
             }
-            authorsRow += " " + assembleFullAuthorName(Book.Authors!.ElementAt(Book.Authors!.Count() - 1));
+            authorsRow += " " + AassembleFullAuthorName(Book.Authors!.ElementAt(Book.Authors!.Count() - 1));
             return authorsRow;
         }
         return "Neznámy autor";
     }
 
-    private string assembleFullAuthorName(Author author)
+    private string AassembleFullAuthorName(Author author)
     {
         string fullAuthorName = "";
 
@@ -94,7 +103,16 @@
         return fullAuthorName;
     }
 
-    private async Task deleteBook()
+    private void ReserveBook()
+    {
+        if (Book!.TotalAmount > Book.ReservedAmount)
+        {
+            ++Book.ReservedAmount;
+            // TODO vytvorit novu rezervaciu -> new Reservation -> POST API -> DB insert
+        }
+    }
+
+    private async Task DeleteBook()
     {
         var httpClient = _httpClientFactory.CreateClient("LibraryResources");
         HttpRequestMessage request = new HttpRequestMessage
@@ -103,11 +121,12 @@
                 Method = HttpMethod.Delete,
                 RequestUri = new Uri($"api/book/{Book!.Id}", UriKind.Relative)
             };
-        
+
         try
         {
             var response = await httpClient.SendAsync(request);
             ErrorMessage = null;
+            await BookWasDeleted(Book.Id);
         }
         catch (Exception e)
         {

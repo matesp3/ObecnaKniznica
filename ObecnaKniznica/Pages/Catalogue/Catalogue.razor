@@ -12,6 +12,7 @@
 
 	@if (Books is null)
 	{
+		<div class="spinner"></div>
 		<h4><bold>Načítavajú sa záznamy...</bold></h4>
 	}
 	else if (ErrorMessage is not null)
@@ -30,7 +31,7 @@
 			{
 				<div class="row justify-content-center my-3">
 					<div class="col">
-						<BookInsight Book="@book"/> <!--Title="@b.Title" ReservedAmount="@b.ReservedAmount" Description="@b.Description-->
+						<BookInsight Book="@book" OnBookDeleted="RemoveBookFromCatalogue"/>
 					</div>
 				</div>
 			}
@@ -61,5 +62,20 @@
 			ErrorMessage = "Chyba pri získavaní kníh. Detail chyby: " + e.Message;
 		}
 		await base.OnInitializedAsync();
+	}
+
+	private void RemoveBookFromCatalogue(int bookId)
+	{
+		if (Books is null | Books!.Count() == 0)
+			return;
+
+		for (int i = 0; i < Books!.Count(); i++)
+		{
+			if (Books!.ElementAt(i).Id == bookId)
+			{
+				Books!.RemoveAt(i);
+				break;
+			}
+		}
 	}
 }
