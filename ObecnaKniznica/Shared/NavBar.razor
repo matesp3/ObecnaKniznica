@@ -15,7 +15,7 @@
                     <a class="itemOfNavbar nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">Katalóg</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="catalogue">Zobraziť knihy</a></li>
-                        <li><a class="dropdown-item" href="add-new-book">Pridať knihu</a></li>
+                        <li><a class="dropdown-item" href="add-new-book" @onclick="ForceReloading">Pridať knihu</a></li>
                         <!--                        <li><hr class="dropdown-divider"></li>-->
                     </ul>
                 </li>
@@ -54,6 +54,10 @@
     </div>
 </nav>
 
+@inject NavigationManager navigationManager
 @code {
-
+    private void ForceReloading()
+    {
+        navigationManager.NavigateTo("add-new-book", true);
+    }
 }

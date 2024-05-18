@@ -1,7 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Emit;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ObecnaKniznicaLogic.Models
 {
@@ -10,12 +7,12 @@ namespace ObecnaKniznicaLogic.Models
         public int Id { get; set; } = 0;
         [Required]
         [MinLength(2)]
-        public required string Title { get; set; }
+        public string Title { get; set; } = String.Empty;
         [Required]
         [Range(1, Double.MaxValue, ErrorMessage = "Total amount must be greater than 0.")]
-        public int TotalAmount { get; set; }
+        public int TotalAmount { get; set; } = 0;
         [Required]
-        public int ReservedAmount { get; set; }
+        public int ReservedAmount { get; set; } = 0;
         public string? Description { get; set; }
         public DateTime? ReleaseDate { get; set; }
         [Required]

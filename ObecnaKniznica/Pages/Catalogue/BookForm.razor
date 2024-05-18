@@ -1,111 +1,104 @@
-﻿
-<form class="needs-validation" method="post" action="<?= $link->url('bookItem.save') ?>" enctype="multipart/form-data">
-    <div id="bookForm" class="container py-3 px-5 rounded-3">
-        <input type="hidden" name="id"
-               value="<?= !$data ? 0 : (($data['bookItem'] ?? null) ? $data['bookItem']->getId() : $data['previousInputs']['id']) ?>">
-        <h3 class="text-center mb-5"> @FormTitle </h3>
-        <div class="row mb-3">
-            <label for="bookPictureInput" class="col-form-label col-md-2">Ilustračný obrázok</label>
-            <div class="col-md-9">
-                <input class="form-control" type="file" name="pictureFile" id="bookPictureInput">
-                <span>
-                    <i>
-                        <small id="fInfo" <!--class{(in)valid}-->
-                            Uložený predošlý obrázok: @(FileName ?? "Žiadny")
-                        </small>
-                    </i>
-                </span>
-            </div>
-        </div>
+﻿@page "/edit-book/{id:int}"
+@page "/add-new-book"
+@using ObecnaKniznicaLogic.DataModels;
+@inject IHttpClientFactory _httpClientFactory
 
-        <div class="row mb-3">
-            <label for="booksName " class=" col-form-label col-md-2">
-                Názov knihy
-            </label>
-            <div class="col-md-9 was-validated">
-                <input class="form-control" name="booksName" type="text" id="bookName" placeholder="Názov" required
-                       value="@Title"
-                       pattern="^[0-9a-zA-Z' . UNI_SLOVAK_LETTERS . '].*"
-            </div>
-        </div>
-
-        <div class="row mb-3 was-validated" id="authorsOfBookContainer">
-            @if (Authors is null)
-            {
-                <p> Žiadny autori... </p>
-            }
-            else
-            {
-                var i = 0;
-                foreach (var author in Authors)
-                {
-                    <div class="row">
-                        <input class="form-control" id=@("aName-" + i.ToString()) type="text" placeholder="Meno" required
-                               name="" value="@author.FirstName" />
+<PageTitle>Editovať knihu</PageTitle>
+<div class="p-4">
+    @if (ErrorMessage is null)
+    {
+        <EditForm Model="@Book">
+            <div id="bookForm" class="container-fluid py-3 px-5 rounded-3">
+                <h3 class="text-center"> @(Book.Id > 0 ? "Editovať knihu" : "Pridať novú knihu") </h3>
+                <hr/>
+                <div class="form-group row">
+                    <label for="bookTitle" class="col-form-label col-sm-2 col-lg-1">Titul</label>
+                    <div class="col-sm-10 col-lg-11">
+                        <InputText id="bookTitle" class="form-control" @bind-Value="Book.Title"> </InputText>
                     </div>
-                    i++;
-                }
-            }
-        </div>
+                </div>
+                <hr>
+                <!-- Tu pojde foreach pre authorov-->
 
-        <div class="row ms-1 my-3">
-            <button class="btn btn-sm btn-primary col-6 rounded-3" type="button" @onclick="addAuthorInfo" id="btnAddAnotherAuthor">
-                <i class="bi bi-plus-lg"></i>
-            </button>
-            <label for="btnAddAnotherAuthor" id="labelForBtnAdd" class="col-form-label col-6">Pridať autora</label>
-        </div>
+                <div class="form-group row ms-1 mt-2">
+                    <div class="col-3 col-md-2 col-lg-1">
+                        <button id="btnAddAnotherAuthor" class="btn btn-primary rounded-3" type="button" @onclick="addAuthorInfo">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <label for="btnAddAnotherAuthor" class="col-form-label col-6">Pridať autora</label>
+                    </div>
+                </div>
 
-		<div class="row my-3">
-            <div class="row mt-5 mb-3">
-                <label for="numberOfAvailable " class=" col-form-label col-md-2">Dostupnosť(ks)</label>
-                <div class=" col-md-2 was-validated">
-                    <input class="form-control" name="amount" type="number" id="numberOfAvailable" placeholder="napr. 5"
-                           min="0" required
-                           value="@Amount">
+                <hr>
+
+                <div class="form-group row">
+                    <label for="numberOfAvailable" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">Dostupnosť(ks)</label>
+                    <div class="col-sm-8 col-lg-9 col-xxl-10">
+                        <InputNumber id="numberOfAvailable" class="form-control" @bind-Value="Book.TotalAmount"> </InputNumber>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                    <label for="description" class="col-form-label col-sm-2 col-lg-1">Popis</label>
+                    <div class="col-sm-10 col-lg-11">
+                        <InputTextArea id="description" class="form-control" @bind-Value="@Book.Description" placeholder="Priestor na popis knihy"> </InputTextArea>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center align-items-center">
+                    <button id="btnSubmitBookItem" type="submit" class="btn mt-3">
+                        Uložiť @(Book.Id > 0 ? "zmeny" : "")
+                    </button>
                 </div>
             </div>
-
-            <div class="row">
-                <label for="descr " class=" col-form-label col-md-2">Popis</label>
-                <div class=" col-md-8">
-                         <textarea class="form-control" id="descr" name="description"
-                                   placeholder="Priestor na popis knihy">@Description</textarea>
-                </div>
-            </div>
-
-            <div class="row justify-content-center align-items-center">
-                <button id="btnSubmitBookItem" type="submit" class="btn border-2 text-center mt-5">
-                    Uložiť
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
+        </EditForm>
+    }
+    else
+    {
+        <h4>@ErrorMessage</h4>
+    }
+</div>
 
 @code {
     [Parameter]
-    public string FormTitle { get; set; } = "Pridať novú knihu";
-    [Parameter]
-    public string? FileName { get; set; } = null;
-    [Parameter]
-    public string Title { get; set; } = "";
-    [Parameter]
-    public int Amount { get; set; } = 0;
-    [Parameter]
-    public string? Description { get; set; } = null; 
+    public int? Id { get; set; }
 
-    public List<Author>? Authors { get; set; }
+    private Book Book { get; set; } = new Book { Authors = new List<Author> { new Author { FirstName = "", LastName = "" } } };
 
-    protected override void OnInitialized()
+    private string? ErrorMessage { get; set; }
+
+    private HttpClient httpClient;
+
+    protected override async Task OnInitializedAsync()
     {
-
+        httpClient = _httpClientFactory.CreateClient("LibraryResources");
+        if (Id is not null) // edit-mode
+        {
+            try
+            {
+                Book? foundBook = await httpClient!.GetFromJsonAsync<Book>($"api/book/{Id}");
+                if (foundBook is not null)
+                {
+                    Book = foundBook;
+                    ErrorMessage = null;
+                }
+                else
+                {
+                    ErrorMessage = $"Neplatná žiadosť. Kniha so zadaným ID({Id}) neexistuje.";
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = $"Chyba. Detail: {e.Message}";
+            }
+        }
         base.OnInitialized();
     }
 
     private void addAuthorInfo()
     {
-        if (Authors is null)
-            Authors = new List<Author>();
-        Authors.Add(new Author { FirstName = "", LastName = "Priezvisko" });
+
     }
 }
