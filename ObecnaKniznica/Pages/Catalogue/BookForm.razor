@@ -8,6 +8,7 @@
     @if (ErrorMessage is null)
     {
         <EditForm Model="@Book">
+            <DataAnnotationsValidator/>
             <div id="bookForm" class="container-fluid py-3 px-5 rounded-3">
                 <h3 class="text-center"> @(Book.Id > 0 ? "Editovať knihu" : "Pridať novú knihu") </h3>
                 <hr/>
@@ -15,6 +16,7 @@
                     <label for="bookTitle" class="col-form-label col-sm-2 col-lg-1">Titul</label>
                     <div class="col-sm-10 col-lg-11">
                         <InputText id="bookTitle" class="form-control" @bind-Value="Book.Title"> </InputText>
+                        <ValidationMessage For="@(() => Book.Title)" />
                     </div>
                 </div>
                 <hr>
@@ -37,6 +39,7 @@
                     <label for="numberOfAvailable" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">Dostupnosť(ks)</label>
                     <div class="col-sm-8 col-lg-9 col-xxl-10">
                         <InputNumber id="numberOfAvailable" class="form-control" @bind-Value="Book.TotalAmount"> </InputNumber>
+                        <ValidationMessage For="@(() => Book.TotalAmount)" />
                     </div>
                 </div>
 
