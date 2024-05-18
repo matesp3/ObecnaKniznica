@@ -5,6 +5,9 @@
 
 <PageTitle>Editovať knihu</PageTitle>
 <div class="p-4">
+    <button id="btnReturn" type="reset" class="btn mt-3">
+        Návrať do katalógu
+    </button>
     @if (ErrorMessage is null)
     {
         <EditForm Model="@Book">
@@ -21,6 +24,22 @@
                 </div>
                 <hr>
                 <!-- Tu pojde foreach pre authorov-->
+
+                @if (Book.Authors is null)
+                {
+                    <p><bold class="invalid p-2">Žiadny autori</bold></p>
+                }
+                else
+                {
+                    int i = 0;
+                    @foreach (Author author in Book.Authors)
+                    {
+                        <div class="row">
+                            <AuthorForm/>
+                        </div>
+                        i++;
+                    }
+                }
 
                 <div class="form-group row ms-1 mt-2">
                     <div class="col-3 col-md-2 col-lg-1">

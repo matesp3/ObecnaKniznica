@@ -1,0 +1,27 @@
+﻿<EditForm Model="@Author">
+	<DataAnnotationsValidator/>
+
+    <div class="form-group row">
+        <label for="FirstName-1" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">@(AuthorIndex.ToString()). autor</label>
+        <InputText placeholder="Tituly pred" />
+        <ValidationMessage For="@(() => Author.PrefixTitles)" />
+        <InputText placeholder="Meno"/>
+        <ValidationMessage For="@(() => Author.FirstName)" />
+        <InputText placeholder="Priezvisko"/>
+        <ValidationMessage For="@(() => Author.LastName)" />
+        <InputText placeholder="Tituly za" />
+        <ValidationMessage For="@(() => Author.SuffixTitles)" />
+         
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int AuthorIndex { get; set; } = 0;
+
+    [Parameter]
+    public Author Author { get; set; } = new Author { FirstName = "", LastName = "" };
+
+    [Parameter]
+    public EventCallback<int> OnAuthorDeleted { get; set; }  // vrati index vymazaneho autora
+}
