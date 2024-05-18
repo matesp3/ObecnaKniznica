@@ -1,24 +1,34 @@
 ﻿<EditForm Model="@Author">
 	<DataAnnotationsValidator/>
 
-    <div class="form-group row" id=@($"author-wrapper-{AuthorIndex}")>
+    <div class="row" id=@($"author-wrapper-{AuthorIndex}")>
         <label for="FirstName-1" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">@((AuthorIndex + 1).ToString()). autor</label>
-        <button type="button" class="btn btn-outline-danger deleteButton" @onmouseover="ShowBorderedArea" @onmouseout="HideBorderedArea">
-            <i class="bi bi-trash" id="<?= 'iTrash-' . $i ?>"></i>
-        </button>
 
-        <InputText @bind-Value="Author.PrefixTitles" class="form-control" placeholder="Tituly pred" />
-        <ValidationMessage For="@(() => Author.PrefixTitles)" />
+        <div class="form-group row justify-content-lg-evenly mb-3">
+            <div class="col-lg-5 mb-1 mb-md-0">
+                <InputText @bind-Value="Author.FirstName" class="form-control" placeholder="Meno" />
+                <ValidationMessage For="@(() => Author.FirstName)" />
+            </div>
+            <div class="col-lg-5">
+                <InputText @bind-Value="Author.LastName" class="form-control" placeholder="Priezvisko" />
+                <ValidationMessage For="@(() => Author.LastName)" />
+            </div>
+        </div>
 
-        <InputText @bind-Value="Author.FirstName" class="form-control" placeholder="Meno" />
-        <ValidationMessage For="@(() => Author.FirstName)" />
-
-        <InputText @bind-Value="Author.LastName" class="form-control" placeholder="Priezvisko" />
-        <ValidationMessage For="@(() => Author.LastName)" />
-
-        <InputText @bind-Value="Author.SuffixTitles" class="form-control" placeholder="Tituly za" />
-        <ValidationMessage For="@(() => Author.SuffixTitles)" />
-
+        <div class="form-group row justify-content-lg-evenly mb-3">
+            <div class="col-lg-5 mb-1 mb-md-0">
+                <InputText @bind-Value="Author.PrefixTitles" class="form-control" placeholder="Tituly pred" />
+            </div>
+            <div class="col-lg-5">
+                <InputText @bind-Value="Author.SuffixTitles" class="form-control" placeholder="Tituly za" />
+            </div>
+        </div>
+        <div class="row justify-content-end mb-2">
+            <button type="button" class="btn btn-sm btn-outline-danger" style="width:auto" @onmouseover="ShowBorderedArea" @onmouseout="HideBorderedArea">
+                <i class="bi bi-trash"></i>
+            </button>
+            
+        </div>
     </div>
 </EditForm>
 
