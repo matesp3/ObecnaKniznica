@@ -1,20 +1,28 @@
 ﻿<EditForm Model="@Author">
 	<DataAnnotationsValidator/>
 
-    <div class="form-group row">
-        <label for="FirstName-1" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">@(AuthorIndex.ToString()). autor</label>
-        <InputText placeholder="Tituly pred" />
+    <div class="form-group row" id=@($"author-wrapper-{AuthorIndex}")>
+        <label for="FirstName-1" class="col-form-label col-sm-4 col-lg-3 col-xxl-2">@((AuthorIndex + 1).ToString()). autor</label>
+        <button type="button" class="btn btn-outline-danger deleteButton" @onmouseover="ShowBorderedArea" @onmouseout="HideBorderedArea">
+            <i class="bi bi-trash" id="<?= 'iTrash-' . $i ?>"></i>
+        </button>
+
+        <InputText @bind-Value="Author.PrefixTitles" class="form-control" placeholder="Tituly pred" />
         <ValidationMessage For="@(() => Author.PrefixTitles)" />
-        <InputText placeholder="Meno"/>
+
+        <InputText @bind-Value="Author.FirstName" class="form-control" placeholder="Meno" />
         <ValidationMessage For="@(() => Author.FirstName)" />
-        <InputText placeholder="Priezvisko"/>
+
+        <InputText @bind-Value="Author.LastName" class="form-control" placeholder="Priezvisko" />
         <ValidationMessage For="@(() => Author.LastName)" />
-        <InputText placeholder="Tituly za" />
+
+        <InputText @bind-Value="Author.SuffixTitles" class="form-control" placeholder="Tituly za" />
         <ValidationMessage For="@(() => Author.SuffixTitles)" />
-         
+
     </div>
 </EditForm>
 
+@inject IJSRuntime JS
 @code {
     [Parameter]
     public int AuthorIndex { get; set; } = 0;
@@ -24,4 +32,8 @@
 
     [Parameter]
     public EventCallback<int> OnAuthorDeleted { get; set; }  // vrati index vymazaneho autora
+
+    private async Task ShowBorderedArea() => await JS.InvokeVoidAsync("toggleBorderVisibility", true, AuthorIndex);
+
+    private async Task HideBorderedArea() => await JS.InvokeVoidAsync("toggleBorderVisibility", false, AuthorIndex);
 }

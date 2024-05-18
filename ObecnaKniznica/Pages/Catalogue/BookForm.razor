@@ -35,7 +35,7 @@
                     @foreach (Author author in Book.Authors)
                     {
                         <div class="row">
-                            <AuthorForm/>
+                            <AuthorForm AuthorIndex="i"/>
                         </div>
                         i++;
                     }
@@ -43,7 +43,7 @@
 
                 <div class="form-group row ms-1 mt-2">
                     <div class="col-3 col-md-2 col-lg-1">
-                        <button id="btnAddAnotherAuthor" class="btn btn-primary rounded-3" type="button" @onclick="addAuthorInfo">
+                        <button id="btnAddAnotherAuthor" class="btn btn-primary rounded-3" type="button" @onclick="addAuthor">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
@@ -119,8 +119,8 @@
         base.OnInitialized();
     }
 
-    private void addAuthorInfo()
+    private void addAuthor()
     {
-
+        Book.Authors?.Add( new Author() );
     }
 }
