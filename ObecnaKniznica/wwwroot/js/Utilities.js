@@ -19,6 +19,21 @@
     }
 };
 
+window.toggleBorderVisibility = (showBorder, index) => {
+    if (typeof (showBorder) === "boolean" & typeof (index) === "number") {
+        const wrapperDiv = document.querySelector('#author-wrapper-' + index.toString());
+        if (wrapperDiv !== null) {
+            if (showBorder === true)
+                wrapperDiv.className += " showBorder";
+            else {
+                const idx = wrapperDiv.className.indexOf('showBorder');
+                if (idx > -1)
+                    wrapperDiv.className = wrapperDiv.className.substring(0, idx - 1);
+            }
+        }
+    }
+}
+
 //window.onload = (event) => {
 //    const toggleBtn = document.getElementById('hamburgerBtn');
 //    toggleBtn.addEventListener('click', (event) => {

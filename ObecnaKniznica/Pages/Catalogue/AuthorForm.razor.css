@@ -1,0 +1,6 @@
+﻿.showBorder {
+    border: 1px solid;
+    border-color: var(--myVar-invalid);
+    border-radius: 8px;
+    background-color: whitesmoke;
+}
