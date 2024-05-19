@@ -3,6 +3,7 @@
 @using ObecnaKniznicaLogic.DataModels;
 @inject IHttpClientFactory _httpClientFactory
 @inject IJSRuntime JS
+@inject NavigationManager _navigationManager
 
 <PageTitle>Editovať knihu</PageTitle>
 <div class="p-4">
@@ -124,7 +125,6 @@
         base.OnInitialized();
     }
 
-
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (Book.Authors?.Count() == 1) // renderujem iba ak jeden autor je, inak chcem, aby zobrazovalo na prvom delete button
@@ -144,7 +144,23 @@
     {
         if (context.Validate() & await ValidateAuthors())
         {
+            HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Content = JsonContent.Create(Book),
+                    Method = HttpMethod.Post, // add or update
+                    RequestUri = new Uri($"api/book/", UriKind.Relative)
+                };
 
+            try
+            {
+                var response = await httpClient.SendAsync(request);
+                ErrorMessage = null;
+                _navigationManager.NavigateTo("/catalogue");
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = "Chyba pri odstránení knihy. Detail chyby: " + e.Message;
+            }
         }
     }
 
