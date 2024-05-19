@@ -2,6 +2,7 @@
 @page "/add-new-book"
 @using ObecnaKniznicaLogic.DataModels;
 @inject IHttpClientFactory _httpClientFactory
+@inject IJSRuntime JS
 
 <PageTitle>Editovať knihu</PageTitle>
 <div class="p-4">
@@ -10,7 +11,7 @@
     </button>
     @if (ErrorMessage is null)
     {
-        <EditForm Model="@Book">
+        <EditForm Model="@Book" OnSubmit=@HandleSubmit>
             <DataAnnotationsValidator/>
             <div id="bookForm" class="container-fluid py-3 px-5 rounded-3">
                 <h3 class="text-center"> @(Book.Id > 0 ? "Editovať knihu" : "Pridať novú knihu") </h3>
@@ -24,23 +25,23 @@
                 </div>
                 <hr>
                 <!-- Tu pojde foreach pre authorov-->
-
-                @if (Book.Authors is null)
-                {
-                    <p><bold class="invalid p-2">Žiadny autori</bold></p>
-                }
-                else
-                {
-                    int i = 0;
-                    @foreach (Author author in Book.Authors)
+                <div id="authorsContainer">
+                    @if (Book.Authors is null)
                     {
-                        <div class="row">
-                            <AuthorForm AuthorIndex="i" Author="author"/>
-                        </div>
-                        i++;
+                        <p><bold class="invalid p-2">Žiadny autori</bold></p>
                     }
-                }
-
+                    else
+                    {
+                        int i = 0;
+                        @foreach (Author author in Book.Authors)
+                        {
+                            <div class="row">
+                                <AuthorForm AuthorIndex="i" Author="author" OnAuthorDeleted="RemoveAuthor"/>
+                            </div>
+                            i++;
+                        }
+                    }
+                </div>
                 <div class="form-group row ms-1 mt-2">
                     <div class="col-3 col-md-2 col-lg-1">
                         <button id="btnAddAnotherAuthor" class="btn btn-primary rounded-3" type="button" @onclick="addAuthor">
@@ -103,6 +104,10 @@
                 Book? foundBook = await httpClient!.GetFromJsonAsync<Book>($"api/book/{Id}");
                 if (foundBook is not null)
                 {
+                    if (foundBook.Authors is null)
+                        foundBook.Authors = new List<Author> { new Author() };
+                    else if (foundBook.Authors.Count() == 0)
+                        foundBook.Authors.Add(new Author());
                     Book = foundBook;
                     ErrorMessage = null;
                 }
@@ -119,8 +124,74 @@
         base.OnInitialized();
     }
 
-    private void addAuthor()
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
+        if (Book.Authors?.Count() == 1) // renderujem iba ak jeden autor je, inak chcem, aby zobrazovalo na prvom delete button
+            JS.InvokeVoidAsync("ToggleFirstAuthorDeleteButton", false);
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task addAuthor()
+    {
+        if (Book.Authors?.Count() == 1)
+            await JS.InvokeVoidAsync("ToggleFirstAuthorDeleteButton", true);
         Book.Authors?.Add( new Author() );
+    }
+
+    private async Task HandleSubmit(EditContext context)
+    {
+        if (context.Validate() & await ValidateAuthors())
+        {
+
+        }
+    }
+
+    private async Task<bool> ValidateAuthors()
+    {
+        await JS.InvokeVoidAsync("HideAuthorsAlertIfPresent");
+        int i = 0;
+        string message;
+        string errInputId;
+        foreach (Author author in Book.Authors)
+        {
+            if (!IsAuthorValid(author, out message, i, out errInputId))
+            {
+                await JS.InvokeVoidAsync("ShowAuthorsAlert", message, errInputId);
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+
+    private bool IsAuthorValid(Author author, out string message, int authorIndex, out string idOfInputWithError)
+    {
+        if (author.FirstName.Length < 2)
+        {
+            idOfInputWithError = $"author-firstname-{authorIndex}";
+            message = $"Meno {authorIndex + 1}. autora bolo zadané nesprávne!";
+            return false;
+        }
+        if (author.LastName.Length < 2)
+        {
+            idOfInputWithError = $"author-lastname-{authorIndex}";
+            message = $"Priezvisko {authorIndex + 1}. autora bolo zadané nesprávne!";
+            return false;
+        }
+        message = "";
+        idOfInputWithError = "";
+        return true;
+    }
+
+    private async Task RemoveAuthor(int authorIndex)
+    {
+        if (Book.Authors?.Count() > 1)
+        {
+            Book.Authors?.RemoveAt(authorIndex);
+            if (Book.Authors?.Count() == 1)
+                await JS.InvokeVoidAsync("ToggleFirstAuthorDeleteButton", false);
+        }
     }
 }
