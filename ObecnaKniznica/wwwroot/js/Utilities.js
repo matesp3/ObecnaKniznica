@@ -34,10 +34,38 @@ window.toggleBorderVisibility = (showBorder, index) => {
     }
 }
 
-//window.onload = (event) => {
-//    const toggleBtn = document.getElementById('hamburgerBtn');
-//    toggleBtn.addEventListener('click', (event) => {
-//        toggleBlankSpace();
-//    });
-//}
+window.ShowAuthorsAlert = (message, errInputId) => {
+    if (typeof (message) === "string" & typeof (errInputId) === "string") {
+        const inputEl = document.querySelector('#' + errInputId);
+        if (inputEl !== null) {
+            const alertDiv = document.createElement('div');
+            alertDiv.id = "authors-alert-div";
+            alertDiv.role = "alert";
+            alertDiv.className = "alert alert-danger mt-1 mb-3";
+            alertDiv.innerText = message;
+            alertDiv.style.color = "red";
+            document.querySelector('#authorsContainer').appendChild(alertDiv);
+
+            const inputToHighlight = document.querySelector('#' + errInputId);
+            if (inputToHighlight !== null) {
+                inputToHighlight.classList.replace('valid', 'invalid')
+            }
+        }
+    }
+}
+
+window.HideAuthorsAlertIfPresent = () => {
+    const alertDiv = document.querySelector('#authors-alert-div');
+    if (alertDiv !== null) {
+        alertDiv.remove();
+    }
+}
+
+window.ToggleFirstAuthorDeleteButton = (showButton) => {
+    if (typeof (showButton) === "boolean") {
+        const delBtn = document.querySelector('#del-btn-0');
+        if (delBtn !== null)
+            delBtn.style.display = (showButton ? 'block' : 'none');
+    }
+}
 
