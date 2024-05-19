@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using ObecnaKniznicaAPI.Data;
 using ObecnaKniznicaLogic.DataModels;
 using ObecnaKniznicaLogic.Models;
+using System.Text.RegularExpressions;
 
 namespace ObecnaKniznicaAPI.Services
 {
@@ -25,7 +26,28 @@ namespace ObecnaKniznicaAPI.Services
                 Book oldBook = await GetBookByIdAsync(newBook.Id);
                 if (oldBook is null)    // try CREATE book
                 {
+                    if (newBook.Authors is not null)
+                    {
+                        var authorService = new AuthorService(appDbContext);
+                        var tasks = new List<Task<Response>>();
+                        foreach (Author author in newBook.Authors)
+                        {
+                            Author? match = appDbContext.Authors.Where(a =>
+                               a.FirstName      == author.FirstName
+                               & a.LastName     == author.LastName
+                               & a.PrefixTitles == author.PrefixTitles
+                               & a.SuffixTitles == author.SuffixTitles)
+                             .FirstOrDefault();
+
+                            if (match is not null)
+                                tasks.Add(authorService.DeleteAuthorByIdAsync(match.Id)); // nechcem mat duplicity autorov
+                        }
+                        await Task.WhenAll(tasks);
+                    }
+
                     appDbContext.Books.Add(newBook);
+                    int a = 5;
+                    Console.WriteLine(a);
                     try
                     {
                         await appDbContext.SaveChangesAsync();
