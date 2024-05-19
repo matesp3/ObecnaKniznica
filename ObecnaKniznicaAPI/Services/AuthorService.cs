@@ -60,7 +60,16 @@ namespace ObecnaKniznicaAPI.Services
 
         public async Task<Response> DeleteAuthorByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id < 1)
+                return new Response { Success = false, Message = $"Given ID={id} is not valid" };
+
+            Author? match = await appDbContext.Authors.Where(a => a.Id == id).FirstOrDefaultAsync();
+            if (match is not null)
+            {
+                appDbContext.Remove(match);
+                return new Response { };
+            }
+            return new Response { Success = false, Message = $"Given ID={id} does not exist" };
         }
 
         public async Task<Author> GetAuthorByIdAsync(int id)
