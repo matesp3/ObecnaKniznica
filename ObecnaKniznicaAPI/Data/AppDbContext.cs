@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ObecnaKniznicaAPI.Data.Migrations;
 using ObecnaKniznicaLogic.Models;
 using System.Reflection.Metadata;
 
@@ -14,14 +15,14 @@ namespace ObecnaKniznicaAPI.Data
 
         public DbSet<Author> Authors { get; set; }
 
-        //public DbSet<Right> Rights { get; set; }
+        public DbSet<BookAuthor> Rights { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Book>()
-        //        .HasMany(e => e.Authors)                
-        //        .WithMany(e => e.Books)
-        //        .UsingEntity<Right>();
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>()
+                .HasMany(e => e.Authors)
+                .WithMany(e => e.Books)
+                .UsingEntity<BookAuthor>();
+        }
     }
 }

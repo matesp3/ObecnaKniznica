@@ -9,7 +9,7 @@ namespace ObecnaKniznicaLogic.Models
         public int AuthorId { get; set; }
         [Required]
         public int BookId { get; set; }
-        public Author Author { get; set; } // .Include( e => e.Name)
-        public Book Book { get; set; }    //  .ThenInclude( d => d.Title)
+        //public Author Author { get; set; } // .Include( e => e.Name)
+        //public Book Book { get; set; }    //  .ThenInclude( d => d.Title)
     }
 }
