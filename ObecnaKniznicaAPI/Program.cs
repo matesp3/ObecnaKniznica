@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 builder.Services.AddScoped<IBookService, BookService>(); // instancia vytvorena per request, zdiela sa v ramci poziadavky. (narozdiel od 'transient, kde sa aj v ramci jednej ziadosti vytvaraju nove instancie').
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IRightService, RightService>();
 
 var app = builder.Build();
 
